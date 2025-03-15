@@ -1,0 +1,50 @@
+server:
+  port: 10010
+
+# 生成mysql连接配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:13309/password-assistant?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: rollin123
+
+  mail:
+    host: smtp.163.com
+    username: 18946025623@163.com
+    password: AYKCF38VcnhEwCe9
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+  data:
+    redis:
+      host: 127.0.0.1
+      password: LuoLin123
+      database: 1
+      timeout: 10000
+      port: 16479
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  type-aliases-package: cn.rollin.passwordassistant.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # 开启SQL日志
+
+# 定义 安全 相关
+security:
+  jwt:
+    prefix: passwordassistant_
+    expiration: 86400000 # 过期时间默认一天 (单位：ms) -- 86400000 = 1天
+    secretKey: z9k+zCKIp7jKJluEi8sFmDCBhwJBYyQdH5tTc0pV+1IuPbXwOg0fUWZaS7yNnq4vLJx6RzGKZ5MvYD7eXVhF9d7rHl6fE0oA2tC7J6mKUXiQ==
+  aes:
+    secretKey: nBmXwWkqz7Y9vQ6cTtZgjA==
+
+logging:
+  level:
+    root: debug
