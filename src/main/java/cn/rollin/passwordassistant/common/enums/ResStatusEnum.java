@@ -27,6 +27,9 @@ public enum ResStatusEnum {
     REGISTER_EMAIL_REPEAT("ERM0004", "电子邮箱已存在，请检查。"),
     REGISTER_USER_ERROR("ERM0005", "用户未注册，或者密码错误。"),
     EMAIL_EMPTY("ERM0002", "电子邮箱不能为空。"),
+    TOKEN_EMPTY("ERM0003", "认证信息不能为空"),
+    RECORD_NOT_FOUND("ERM0006", "记录不存在"),
+    TOKEN_INVALID("ERM0007", "认证信息无效"),
     ;
 
 
