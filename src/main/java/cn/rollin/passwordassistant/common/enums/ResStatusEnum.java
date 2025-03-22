@@ -30,6 +30,8 @@ public enum ResStatusEnum {
     TOKEN_EMPTY("ERM0003", "认证信息不能为空"),
     RECORD_NOT_FOUND("ERM0006", "记录不存在"),
     TOKEN_INVALID("ERM0007", "认证信息无效"),
+    FILE_UPLOAD_ERROR("ERM0008", "文件上传失败"),
+    FILE_DOWNLOAD_ERROR("ERM0009", "文件下载失败"),
     ;
 
 

@@ -45,6 +45,20 @@ security:
   aes:
     secretKey: nBmXwWkqz7Y9vQ6cTtZgjA==
 
+# minio配置
+minio:
+  endpoint: http://127.0.0.1:9000  # 使用127.0.0.1替代localhost
+  accessKey: 9GUqG7r4mDka3V2Gs7qi
+  secretKey: 6KO8mSAa7Sw9SfW738yp45JjNTTR6bCbnLQIN96V
+  bucket: password-assistant
+  # 可选配置
+  connect-timeout: 5000  # 连接超时时间（毫秒）
+  write-timeout: 60000   # 写超时时间（毫秒）
+  read-timeout: 60000    # 读超时时间（毫秒）
+  retry:
+    max-attempts: 3
+    delay: 1000  # 毫秒
+
 logging:
   level:
     root: debug

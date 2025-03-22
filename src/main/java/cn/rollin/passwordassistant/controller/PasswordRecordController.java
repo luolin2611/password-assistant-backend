@@ -1,16 +1,26 @@
 package cn.rollin.passwordassistant.controller;
 
 import cn.rollin.passwordassistant.common.res.Response;
+import cn.rollin.passwordassistant.common.utils.MinioUtil;
 import cn.rollin.passwordassistant.common.utils.UserContext;
 import cn.rollin.passwordassistant.pojo.dto.LoginUser;
 import cn.rollin.passwordassistant.pojo.dto.PasswordAddReq;
 import cn.rollin.passwordassistant.pojo.dto.PasswordUpdateReq;
+import cn.rollin.passwordassistant.pojo.vo.FileUploadVO;
 import cn.rollin.passwordassistant.pojo.vo.PasswordRecordVO;
 import cn.rollin.passwordassistant.service.IPasswordRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +37,9 @@ public class PasswordRecordController {
 
     @Autowired
     private IPasswordRecordService passwordRecordService;
+
+    @Autowired
+    private MinioUtil minioUtil;
 
     /**
      * 添加密码记录
@@ -61,7 +74,7 @@ public class PasswordRecordController {
      * @return 响应结果
      */
     @GetMapping("/query")
-    public Response<List<PasswordRecordVO>> queryPasswordRecords(@RequestParam(required = false) Integer id) {
+    public Response<List<PasswordRecordVO>> queryPasswordRecords(@RequestParam(name = "id", required = false) Integer id) {
         LoginUser loginUser = UserContext.getUser();
         log.info("查询密码记录，用户：{}，记录ID：{}", loginUser.getUsername(), id);
         return passwordRecordService.queryPasswordRecords(id, loginUser.getId());
@@ -78,5 +91,19 @@ public class PasswordRecordController {
         LoginUser loginUser = UserContext.getUser();
         log.info("删除密码记录，用户：{}，记录ID：{}", loginUser.getUsername(), id);
         return passwordRecordService.deletePasswordRecord(id, loginUser.getId());
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     * @return 响应结果
+     */
+    @PostMapping("/upload")
+    public Response<FileUploadVO> uploadFile(@RequestParam("file") MultipartFile file) {
+        LoginUser loginUser = UserContext.getUser();
+        log.info("上传文件，用户：{}，文件名：{}", loginUser.getUsername(), file.getOriginalFilename());
+        String url = minioUtil.uploadFile(file);
+        return Response.buildSuccess(new FileUploadVO(url, file.getOriginalFilename()));
     }
 }
